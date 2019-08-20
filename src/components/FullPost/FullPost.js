@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './FullPost.css';
-import post from '../Post/Post';
 
 // state, loadedPost;
 // cdu, condition: props id, not loadedpost or is LP but not props id, axios-get(url) and then(cb, setState)
@@ -14,10 +13,21 @@ class FullPost extends Component {
     }
 
     componentDidUpdate () {
-        axios.get( 'https://jsonplaceholder.typicode.com/posts/' + this.props.id )
-            .then( response => {
-                this.setState({ loadedPost: response.data })
-            } )
+        if ( this.props.id ) {
+            if ( !this.state.loadedPost || ( this.state.loadedPost && this.state.loadedPost.id !== this.props.id ) ) {
+                axios.get( 'https://jsonplaceholder.typicode.com/posts/' + this.props.id )
+                    .then( response => {
+                        this.setState({ loadedPost: response.data })
+                    } );
+            }
+        }
+    }
+
+    deleteDataHandler = () => {
+        axios.delete( 'https://jsonplaceholder.typicode.com/posts/' + this.props.id )
+            .then(response => {
+                console.log(response)
+            });
     }
 
     render () {
@@ -35,7 +45,7 @@ class FullPost extends Component {
                 <h1>{this.state.loadedPost.title}</h1>
                 <p>{this.state.loadedPost.body}</p>
                 <div className="Edit">
-                    <button className="Delete">Delete</button>
+                    <button className="Delete" onClick={this.deleteDataHandler}>Delete</button>
                 </div>
             </div>
             )

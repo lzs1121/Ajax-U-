@@ -14,6 +14,7 @@ class Blog extends Component {
     state = {
         posts: [],
         selectedPostId: null,
+        error: false,
     };
 
     componentDidMount () {
@@ -28,6 +29,10 @@ class Blog extends Component {
             });
             this.setState({posts: updatedPosts});
         })
+        .catch(error => {
+            // console.log(error)
+            this.setState({ error: true});
+        });
     }
 
     postSelectedHandler = id => {
