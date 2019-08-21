@@ -7,7 +7,7 @@ class NewPost extends Component {
     state = {
         title: '',
         content: '',
-        author: 'Max'
+        author: 'Sean',
     }
 
     // method postDataHandler has data obj, axios post then, added to the button;
@@ -17,7 +17,7 @@ class NewPost extends Component {
             content: this.state.content,
             author: this.state.author,
         }
-        axios.post('https://jsonplaceholder.typicode.com/posts', data)
+        axios.post('/posts', data)
             .then(data => {
                 console.log(data);
             });
